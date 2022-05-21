@@ -1,0 +1,2 @@
+class Fulfilment:
+	pass
