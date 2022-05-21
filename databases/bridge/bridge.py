@@ -1,6 +1,6 @@
 from databases.runner import transcation_isolation
 
-from sqlalchemy import Column, Integer, String, Date
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from typing import Any
