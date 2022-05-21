@@ -1,6 +1,5 @@
 from configparser import ConfigParser
 
-
 from functools import wraps
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import Session
