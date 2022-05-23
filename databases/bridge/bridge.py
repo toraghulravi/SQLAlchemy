@@ -18,6 +18,10 @@ class Shipment(BASE):
 	requested_warehouse_code = Column(String)
 	order_status = Column(String)
 
+	@property
+	def table_name(self) -> str:
+		return Shipment.__tablename__
+
 class ShipmentUtils(Engine):
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
 		super().__init__(*args, **kwargs)
@@ -41,5 +45,13 @@ class ShipmentUtils(Engine):
 		session.add(shipment)
 	
 	@transcation_isolation
-	def get_shipment_count(self, session: Session) -> str:
+	def get_shipment_count(self, session: Session) -> int:
 		return session.query(Shipment).count()
+
+	@transcation_isolation
+	def has_table(self, session: Session) -> bool:
+		return self.engine.has_table(Shipment.table_name)
+
+	@transcation_isolation
+	def drop_table(self, session: Session) -> None:
+		Shipment.__tablename__.drop()
