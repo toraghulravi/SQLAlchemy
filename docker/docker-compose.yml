@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+    postgres:
+      build:
+        context: ./postgres
+      ports:
+      - 5432:5432
+      restart: on-failure
+      environment:
+        - POSTGRES_PASSWORD=password
+        - POSTGRES_HOST_AUTH_METHOD=trust
+
+    console:
+      build:
+        context: ./console
+      depends_on:
+        - postgres
+      restart: on-failure
+      volumes:
+        - ../databases:/work/databases:rw
+      environment:
+        - RDS_ENDPOINT=postgres
+        - DBUSER=postgres
+        - PORT=5432
+
+    
