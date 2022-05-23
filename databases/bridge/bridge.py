@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from typing import Any
 
 from databases.common import transcation_isolation
+from databases.runner import Engine
 
 BASE = declarative_base()
 
@@ -17,12 +18,16 @@ class Shipment(BASE):
 	requested_warehouse_code = Column(String)
 	order_status = Column(String)
 
-class ShipmentUtils(Shipment):
+class ShipmentUtils(Engine):
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self) -> str:
 		return f"<shipment(id='{self.id}', order_number='{self.order_number}', ship_service={self.ship_service}, requested_warehouse_code={self.requested_warehouse_code}, order_status={self.order_status}>"
+
+	@transcation_isolation
+	def create_shipment_table(self, session: Session) -> None:
+		BASE.metadata.create_all(self.engine)
 
 	@transcation_isolation
 	def insert_shipment(self, session: Session) -> None:
