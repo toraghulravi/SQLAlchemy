@@ -15,6 +15,13 @@ class TestBridge:
         bridge_shipment.create_shipment_table()
         assert bridge_shipment.is_table_exists() is True
 
+    def test_insert_table(self):
+        bridge_shipment = BridgeShipment(engine_type=TestBridge.ENGINE_TYPE)
+        assert bridge_shipment.get_shipment_count() == 0
+
+        bridge_shipment.insert_shipment()
+        assert bridge_shipment.get_shipment_count() == 1
+
     def test_drop_table(self):
         bridge_shipment = BridgeShipment(engine_type=TestBridge.ENGINE_TYPE)
         assert bridge_shipment.is_table_exists() == True
