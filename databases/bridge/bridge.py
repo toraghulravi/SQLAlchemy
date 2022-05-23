@@ -25,5 +25,16 @@ class ShipmentUtils(Shipment):
 		return f"<shipment(id='{self.id}', order_number='{self.order_number}', ship_service={self.ship_service}, requested_warehouse_code={self.requested_warehouse_code}, order_status={self.order_status}>"
 
 	@transcation_isolation
+	def insert_shipment(self, session: Session) -> None:
+		shipment = Shipment(
+			id=1,
+			order_number="1",
+			ship_service="air",
+			requested_warehouse_code="1",
+			order_status="success"
+		)
+		session.add(shipment)
+	
+	@transcation_isolation
 	def get_shipment(self, session: Session) -> str:
 		return session.query(Shipment).first()

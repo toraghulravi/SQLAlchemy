@@ -3,6 +3,7 @@ from configparser import ConfigParser
 from functools import wraps
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import Session
+from models import Base
 
 
 def transcation_isolation(func):
@@ -22,3 +23,7 @@ class Engine:
             self.config,
             prefix=config_prefix,
         )
+
+    @transcation_isolation
+    def create_tables(self, session: Session) -> None:
+        Base.metadata.create_all(self.engine)
