@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, inspect
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from typing import Any
@@ -18,16 +18,12 @@ class Shipment(BASE):
 	requested_warehouse_code = Column(String)
 	order_status = Column(String)
 
-	@property
-	def table_name(self) -> str:
-		return Shipment.__tablename__
-
 class ShipmentUtils(Engine):
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
 		super().__init__(*args, **kwargs)
 
-	def __repr__(self) -> str:
-		return f"<shipment(id='{self.id}', order_number='{self.order_number}', ship_service={self.ship_service}, requested_warehouse_code={self.requested_warehouse_code}, order_status={self.order_status}>"
+	def _inspect(self):
+		return inspect(self.engine)
 
 	@transcation_isolation
 	def create_shipment_table(self, session: Session) -> None:
@@ -49,9 +45,10 @@ class ShipmentUtils(Engine):
 		return session.query(Shipment).count()
 
 	@transcation_isolation
-	def has_table(self, session: Session) -> bool:
-		return self.engine.has_table(Shipment.table_name)
-
+	def is_table_exists(self, session: Session) -> bool:
+		inspector = self._inspect()
+		return inspector.has_table(Shipment.__tablename__)
+	
 	@transcation_isolation
 	def drop_table(self, session: Session) -> None:
-		Shipment.__tablename__.drop()
+		Shipment.__table__.drop(self.engine)

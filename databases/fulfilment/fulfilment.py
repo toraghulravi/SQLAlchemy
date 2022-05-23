@@ -21,9 +21,6 @@ class ShipmentUtils(Engine):
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
 		super().__init__(*args, **kwargs)
 
-	def __repr__(self) -> str:
-		return f"<ShipmentId(id='{self.ShipmentId}', CompanyId='{self.CompanyId}', WarehouseId={self.WarehouseId}, ShipmentStatusId={self.ShipmentStatusId}>"
-
 	@transcation_isolation
 	def create_shipment_table(self, session: Session) -> None:
 		BASE.metadata.create_all(self.engine)
