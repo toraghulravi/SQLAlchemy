@@ -1,7 +1,6 @@
 from pathlib import Path
 from configparser import ConfigParser
 from sqlalchemy import engine_from_config
-from sqlalchemy.orm import Session
 
 class Engine:
     def _get_config(self, config_file_name: str, engine_type: str) -> dict:
