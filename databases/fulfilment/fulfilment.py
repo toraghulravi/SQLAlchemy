@@ -9,7 +9,7 @@ from databases.runner import Engine
 BASE = declarative_base()
 
 
-class Fulfilment(BASE):
+class Shipment(BASE):
 	__tablename__ = 'shipment'
 
 	ShipmentId = Column(Integer, primary_key=True)
@@ -17,7 +17,7 @@ class Fulfilment(BASE):
 	WarehouseId = Column(Integer)
 	ShipmentStatusId = Column(Integer)
 
-class FulfilmentUtils(Engine):
+class ShipmentUtils(Engine):
 	def __init__(self, *args: Any, **kwargs: Any) -> None:
 		super().__init__(*args, **kwargs)
 
@@ -30,7 +30,7 @@ class FulfilmentUtils(Engine):
 
 	@transcation_isolation
 	def insert_shipment(self, session: Session) -> None:
-		shipment = Fulfilment(
+		shipment = Shipment(
 			ShipmentId=1,
 			CompanyId=1,
 			WarehouseId=1,
@@ -40,4 +40,4 @@ class FulfilmentUtils(Engine):
 
 	@transcation_isolation
 	def get_shipment_count(self, session: Session) -> str:
-		return session.query(Fulfilment).count()
+		return session.query(Shipment).count()
