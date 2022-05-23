@@ -68,7 +68,6 @@ docker_restart() {
 
 docker_console() {
   local args=$@
-  _setup
   docker_up
   docker_console_only ${args[@]}
 }
@@ -137,13 +136,7 @@ docker_ports() {
     done
   done
 }
-docker_push()
-{
-  if [[ -v CI ]]
-  then
-    $COMPOSE push
-  fi
-}
+
 case "x$ACTION" in
   xbuild|xup|xconsole|xconsole_only|xrun|xstart|xstop|xrestart|xrm|xps|xlogs|xports|xapitest|xpush|xmigration)
     docker_${ACTION} ${PARAMS[@]}
