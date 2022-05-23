@@ -1,10 +1,9 @@
 from configparser import ConfigParser
-
 from functools import wraps
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import Session
-from models import Base
 
+from databases.bridge.bridge import BASE
 
 def transcation_isolation(func):
     @wraps(func)
@@ -25,5 +24,8 @@ class Engine:
         )
 
     @transcation_isolation
-    def create_tables(self, session: Session) -> None:
-        Base.metadata.create_all(self.engine)
+    def create_shipment_table(self, session: Session) -> None:
+        BASE.metadata.create_all(self.engine)
+
+e = Engine()
+e.create_shipment_table()

@@ -19,9 +19,8 @@ services:
       restart: on-failure
       volumes:
         - ../databases:/work/databases:rw
+        - ../__init__.py:/work/__init__.py:ro
       environment:
         - RDS_ENDPOINT=postgres
         - DBUSER=postgres
         - PORT=5432
-
-    
