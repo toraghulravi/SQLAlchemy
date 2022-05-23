@@ -1,19 +1,21 @@
+import sys
+from pathlib import Path
 from configparser import ConfigParser
-from functools import wraps
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import Session
 
-from databases.bridge.bridge import BASE
+sys.path.insert(0, Path(__file__).parent.parent.as_posix())
 
-def transcation_isolation(func):
-    @wraps(func)
-    def func_wrapper(self, *args, **kwargs):
-        with Session(self.engine) as session:
-            return func(self, *args, **kwargs, session=session)
+from databases.common import transcation_isolation
+from databases.bridge.bridge import BASE
 
 class Engine:
     def _get_config(self, config_file_name: str) -> dict:
-        config = ConfigParser.ConfigParser().read(config_file_name)
+        print(config_file_name)
+        config = ConfigParser()
+        config.read(config_file_name)
+        print(config.sections())
+        print("hello world")
         return config.__dict__
 
     def __init__(self, config_file_name: str = "config.ini", config_prefix: str = "db") -> None:

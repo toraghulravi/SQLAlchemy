@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import declarative_base
 from typing import Any
 
-from databases.runner import transcation_isolation
+from databases.common import transcation_isolation
 
 BASE = declarative_base()
 
