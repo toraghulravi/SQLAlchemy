@@ -8,5 +8,6 @@ def transcation_isolation(func):
             return func(self, *args, **kwargs, session=session)
 
         with Session(self.engine) as session:
-            return func(self, *args, **kwargs, session=session)
+            with session.begin():
+                return func(self, *args, **kwargs, session=session)
     return func_wrapper

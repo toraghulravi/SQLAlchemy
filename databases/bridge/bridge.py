@@ -41,5 +41,5 @@ class ShipmentUtils(Engine):
 		session.add(shipment)
 	
 	@transcation_isolation
-	def get_shipment(self, session: Session) -> str:
-		return session.query(Shipment).first()
+	def get_shipment_count(self, session: Session) -> str:
+		return session.query(Shipment).count()
